@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Applications{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<div class="mt-5">
+		<div class="row">
+			<div class="col-md-3 mr-5 col-sm-12 elegant-color-dark p-4">
+				<nav class="nav flex-column">
+				  <a class="nav-link text-white p-3" href="{% url 'staff:staff_home' %}">Application Request</a>
+				  <a class="nav-link text-white border p-3" href="{% url 'staff:universities' %}">Universities</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:departments' %}">Faculty and Departments</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:units' %}">Units</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:feedbacks' %}">Feedbacks</a>
+				  <a class="nav-link text-white pt-3" href="{% url 'staff:queries' %}">Messages</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:send_mail' %}"><button class="btn btn-warning btn-sm">Send Mail<i class="fas fa-paper-plane ml-2"></i></button></a>
+				</nav>
+			</div>
+			<div class="col-md-8 col-sm-12 mt-5">
+				<h3 class="font-weight-bold">Universities</h3>
+				<a href="{% url 'staff:add_university' %}" class="btn btn-primary btn-sm mb-3 mt-4"><i class="fas fa-plus mr-2"></i>Add University</a>
+		
+				<!-- --------------university list------------------ -->
+				<div class="uni-list">
+           				{% include 'staff/uni_list.html' %}
+           		</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+  <!-- remove university ajax call -->
+  <script type="text/javascript">
+    function deleteUniversity(u_id){
+      $.ajax({
+        url: '{% url 'staff:delete_uni' %}',
+        method: 'get',
+        data: {'u_id': u_id,},
+        success: function(data){
+          status = data.remove;
+          if(status == 'success'){
+            $('.uni-list .table tbody').html(data.html_uni_list);
+          }else{
+
+          }
+        }
+      })
+    }
+  </script>
+{% endblock %}

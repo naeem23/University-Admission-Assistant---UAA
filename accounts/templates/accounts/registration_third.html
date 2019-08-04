@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistent - Registration{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.register-third .card-body{
+	padding: 55px!important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="card register-third">
+			<div class="card-body">
+				<h3 class="card-title font-weight-bold text-center mb-5">Educational Information (HSC)</h3>
+				<form method="POST">
+					{% csrf_token %}
+					<!-- first row with ssc roll and reg -->
+					<div class="form-row mt-4">
+						<div class="col-md-4 col-sm-12">
+							<div class="md-form form-sm">
+								{{ form.hsc_roll }}
+								<label for="id_hsc_roll">Roll No.</label>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<div class="md-form form-sm">
+								{{ form.hsc_reg }}
+								<label for="id_hsc_reg">Reg. No.</label>
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<div class="md-form form-sm">
+								{{ form.hsc_pass_y }}
+								<label for="id_ssc_pass_y">Year</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- second row with ssc passing year and board -->
+					<div class="form-row mt-3">
+						<div class="col-md-4 col-sm-12">
+							<span style="color: #757575; font-size: 0.9rem">Board</span> 
+							<div class="md-form form-sm">
+								{{ form.hsc_board }}
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-12">
+							<span style="color: #757575; font-size: 0.9rem">Group</span> 
+							<div class="md-form form-sm">
+								{{ form.hsc_group }}
+							</div>
+						</div>
+						<div class="col-md-4 col-sm-12 mt-md-4">
+							<div class="md-form form-sm">
+								{{ form.hsc_gpa }}
+								<label for="id_hsc_gpa">Total GPA</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- third row with subject gpa -->
+					<small class="text-center font-weight-bold text-danger mt-5">*Only for Science Students</small>
+					<div class="form-row mt-4">						
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.physics }}
+								<label for="id_physics">Physics</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.chemistry }}
+								<label for="id_chemistry">Chemistry</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.math }}
+								<label for="id_math">Mathematics</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.biology }}
+								<label for="id_biology">Biology</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.english }}
+								<label for="id_english">English</label>
+							</div>
+						</div>
+						<div class="col-md-2 col-sm-4">
+							<div class="md-form form-sm">
+								{{ form.bangla }}
+								<label for="id_bangla">Bangla</label>
+							</div>
+						</div>
+					</div>
+					
+					{% if form.non_field_errors %}
+						{% for error in form.non_field_errors %}
+							<p class="card-text text-danger font-weight-bold">{{ error }}</p>
+						{% endfor %}
+					{% endif %}
+
+					<button type="submit" class="btn btn-default btn-md mt-4">Send</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+{% endblock %}

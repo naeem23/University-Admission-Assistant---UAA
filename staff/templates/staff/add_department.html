@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Add Department{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<h2 class="font-weight-bold my-4">Add Department</h2>
+
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.media }}
+
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form form-sm mt-4 mr-3">
+						{{ form.dept_name }}
+						<label for="id_dept_name">Department Name</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm mt-4">
+						{{ form.short_form }}
+						<label for="id_short_form">Short Name</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form">
+						<span style="color: #757575; font-size: 0.9rem;">About Department</span>
+						<br>
+						{{ form.content }}
+					</div>
+				</div>
+			</div>
+
+			<p class="font-weight-bold mt-3">Key Facts</p>
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.degree }}
+						<label for="id_degree">Degree Offer</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.seat }}
+						<label for="id_seat">Available Seats</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.language }}
+						<label for="id_language">Teaching Language</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.duration }}
+						<label for="id_duration">Programme Duration</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.credit }}
+						<label for="id_credit">Credit Hour</label>
+					</div>
+				</div>
+			</div>
+
+			<p class="font-weight-bold mt-3">Ratings</p>
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form form-sm mr-3">
+						{{ form.quality }}
+						<label for="id_quality">Quality Education</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm mr-3">
+						{{ form.lab }}
+						<label for="id_lab">Lab Facilities</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.curriculam }}
+						<label for="id_curriculam">Curriculam</label>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form form-sm mr-3">
+						{{ form.extra }}
+						<label for="id_extra">Extra curriculum</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm mr-3">
+						{{ form.success }}
+						<label for="id_success">Success of Graduates</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.employ_ability }}
+						<label for="id_employ_ability">Employ Ability of Graduates</label>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<button type="submit" class="btn btn-default"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+		</form>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

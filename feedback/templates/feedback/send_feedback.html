@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Login{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br><br><br>
+	<div class="container">
+		<div class="card mt-5">
+			<h3 class="text-danger text-center mt-5 font-weight-bold">Feedback</h3>
+			<p class="text-center text-muted">Help us to improve our service by sending your valuable feedback.</p>
+			<div class="card-body">
+				<form method="POST" class="mt-3">
+					{% csrf_token %}
+
+					<div class="form-row px-5 flex-center">
+						<div class="col-12 col-md-5 col-sm-6">
+							<div class="md-form form-sm">
+								{{ form.name }}
+								<label for="id_name">Name</label>
+							</div>
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-12 col-md-5 col-sm-6">
+							<div class="md-form form-sm">
+								{{ form.email }}
+								<label for="id_email">Email</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row mt-3 px-5 flex-center">
+						<div class="col-12 col-md-11">
+							<div class="md-form form-sm">
+								{{ form.review }}
+								<label for="id_review">Your Review</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row mt-3 px-5 ml-md-5">
+						<div class="col-12 col-md-6 col-lg-3 col-sm-6 mb-4">
+							<p class="font-weight-bold text-danger">Overall Experience</p>
+							<div class="form-check">
+								{{ form.oe_very_good }}
+								<label class="form-check-label mr-5" for="id_oe_very_good">Very Good</label> <br>
+								{{ form.oe_good }}
+								<label class="form-check-label mr-5" for="id_oe_good">Good</label> <br>
+								{{ form.oe_fair }}
+								<label class="form-check-label mr-5" for="id_oe_fair">Fair</label> <br>
+								{{ form.oe_poor }}
+								<label class="form-check-label mr-5" for="id_oe_poor">Poor</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-3 col-sm-6 mb-4">
+							<p class="font-weight-bold text-danger">Timely Response</p>
+							<div class="form-check">
+								{{ form.tr_very_good }}
+								<label class="form-check-label mr-5" for="id_tr_very_good">Very Good</label> <br>
+								{{ form.tr_good }}
+								<label class="form-check-label mr-5" for="id_tr_good">Good</label> <br>
+								{{ form.tr_fair }}
+								<label class="form-check-label mr-5" for="id_tr_fair">Fair</label> <br>
+								{{ form.tr_poor }}
+								<label class="form-check-label mr-5" for="id_tr_poor">Poor</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-3 col-sm-6 mb-4">
+							<p class="font-weight-bold text-danger">Our Service</p>
+							<div class="form-check">
+								{{ form.s_very_good }}
+								<label class="form-check-label mr-5" for="id_s_very_good">Very Good</label> <br>
+								{{ form.s_good }}
+								<label class="form-check-label mr-5" for="id_s_good">Good</label> <br>
+								{{ form.s_fair }}
+								<label class="form-check-label mr-5" for="id_s_fair">Fair</label> <br>
+								{{ form.s_poor }}
+								<label class="form-check-label mr-5" for="id_s_poor">Poor</label>
+							</div>
+						</div>
+						<div class="col-12 col-md-6 col-lg-3 col-sm-6 mb-4">
+							<p class="font-weight-bold text-danger">Overall Satisfaction</p>
+							<div class="form-check">
+								{{ form.os_very_good }}
+								<label class="form-check-label mr-5" for="id_os_very_good">Very Good</label> <br>
+								{{ form.os_good }}
+								<label class="form-check-label mr-5" for="id_os_good">Good</label> <br>
+								{{ form.os_fair }}
+								<label class="form-check-label mr-5" for="id_os_fair">Fair</label> <br>
+								{{ form.os_poor }}
+								<label class="form-check-label mr-5" for="id_os_poor">Poor</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row mt-4 px-5 flex-center">
+						<div class="col-12 col-md-11">
+							<p class="font-weight-bold text-danger mb-3">Is there anything you would like to tell us?</p>
+							<div class="md-form form-sm">
+								{{ form.message }}
+								<label for="id_message">Message</label>
+							</div>
+						</div>
+					</div>
+
+					<br>
+					<div class="row">
+						<div class="col-12 text-center">
+							<button type="submit" class="btn btn-default btn-sm"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

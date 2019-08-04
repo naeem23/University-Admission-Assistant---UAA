@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - {{ dept.dept_name }}{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="row border p-3">
+			<div class="col-md-12">
+				<h2 class="text-danger font-weight-bold">{{ dept.dept_name }}</h2>
+				<h5 class="text-danger font-weight-bold">{{ dept.uni_name }}</h5>
+			</div>
+		</div>
+		<div class="row mt-5">
+			<div class="col-12">
+				<p>{{ dept.content|safe }}</p>
+			</div>
+		</div>
+
+
+		<div class="row mt-4">
+			<div class="col-12 col-sm-6 col-md-6">
+				<div class="card">
+					<div class="card-header teal">
+						<div class="card-title text-white text-center font-weight-bold">key Facts</div>
+					</div>
+					<div class="card-body">
+						<p class="card-text"><span class="font-weight-bold">Degree Offered: </span></span>{{ dept.degree }}</p>
+						<p class="card-text"><span class="font-weight-bold">Available Seat: </span>{{ dept.seat }}</p>
+						<p class="card-text"><span class="font-weight-bold">Teaching Language: </span>{{ dept.language }}</p>
+						<p class="card-text"><span class="font-weight-bold">Programme Duration: </span>{{ dept.duration }}</p>
+						<p class="card-text"><span class="font-weight-bold">Credit Hours: </span>{{ dept.credit }}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-sm-6 col-md-6">
+				<div class="card">
+					<div class="card-header teal">
+						<div class="card-title text-white text-center font-weight-bold">Ratings</div>
+					</div>
+					<div class="card-body">
+						<div class="text-center mb-2">
+							<h2 class="font-weight-bold">{{ dept.average }}/5</h2>
+							<i class="fas fa-star mr-2 text-warning"></i>
+							<i class="fas fa-star mr-2 text-warning"></i>
+							<i class="fas fa-star mr-2 text-warning"></i>
+							<i class="fas fa-star mr-2 text-warning"></i>
+							<i class="fas fa-star"></i>
+						</div>
+						<p class="card-text"><span class="font-weight-bold">Quality Education: </span>{{ dept.quality }} out of 5.00</p>
+						<p class="card-text"><span class="font-weight-bold">Lab Facilities: </span>{{ dept.lab }} out of 5.00</p>
+						<p class="card-text" class="card-text"><span class="font-weight-bold">Curriculum: </span>{{ dept.curriculam }} out of 5.00</p>
+						<p class="card-text"><span class="font-weight-bold">Extra Curriculum: </span>{{ dept.extra }} out of 5.00</p>
+						<p class="card-text"><span class="font-weight-bold">Success of Graduates: </span>{{ dept.success }} out of 5.00</p>
+						<p class="card-text"><span class="font-weight-bold">Employ ability of Graduates: </span>{{ dept.employ_ability }} out of 5.00</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

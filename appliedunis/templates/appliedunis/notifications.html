@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Profile{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.cover{	
+	background-image: url('{% static "home/image.jpg" %}'); 
+	background-repeat: no-repeat; 
+	background-size: cover; 
+	background-position: center center;
+	height: 350px;
+	position: relative;
+}
+.profile img{
+	position: absolute;
+	top: 40%;
+    border: 4px solid #fff;
+    box-shadow: 0px 2px 10px 1px;
+}
+.username{
+	margin-left: 15%;
+}
+{% endblock %}
+
+{% block main-content %}
+	<!-- Intro Section Start -->
+	<div class="cover"></div>
+	<div class="container">
+		<div class="profile">
+				{% if user.userprofile.image %}
+					<img src="{{ user.userprofile.image.url }}" class="profile-image rounded-circle m-auto" alt="Users Image" width="150px" height="150px">
+				{% else %}
+					<img src="{% static 'img/avatar.png' %}" class="profile-image rounded-circle m-auto" alt="Users Image" width="150px" height="150px">
+				{% endif%}  <br>
+				<h6 class="username text-danger font-weight-bold">{{ user.username }}</h6>
+		</div>
+	</div>	
+	<!-- Intro Section End -->
+
+
+	<div class="container mt-5">
+		<ul class="nav teal p-3 flex-center rounded">
+		  <li class="nav-item">
+		    <a class="nav-link active text-white" href="{% url 'accounts:profile' username=request.user %}"><i class="fas fa-user mr-2"></i>About Me</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-white" href="{% url 'accounts:eligible_list' username=user.username %}"><i class="fas fa-list-ul mr-2"></i>Eligible Universities</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-white" href="{% url 'accounts:interested_unis' username=user.username %}"><i class="fas fa-thumbtack mr-2"></i>Interested Universities</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-white" href="{% url 'accounts:application' username=user.username %}"><i class="fas fa-check-circle mr-2"></i>Applied Universities</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-white teal darken-2 rounded" href="{% url 'accounts:notifications' username=user.username %}"><i class="fas fa-bell mr-2"></i>Notifications <span class="badge badge-danger ml-1">{{ count }}</span></a>
+		  </li>
+		</ul>
+	</div>
+
+	
+	<br>
+	<!-- notification list -->
+	<section class="container notifications mt-4">
+		{% for notification in notifications %}
+			{% if not notification.is_read %}
+			<div class="row mb-3 flex-center">
+				<div class="col-10">
+					<p class="border p-4 hoverable grey lighten-3" onclick="markAsRead('{{ notification.id }}');">
+						<a href="{% url 'accounts:application' username=user.username %}" class="text-dark">
+							{{ notification.message }}
+						</a>
+						<br>
+						<span class="text-muted">{{ notification.created | timesince }} ago</span>
+					</p>
+				</div>
+			</div> <!-- end of row -->
+			{% else %}
+			<div class="row mb-3 flex-center">
+				<div class="col-10">	
+					<p class="border p-4 hoverable">
+						<a href="{% url 'accounts:application' username=user.username %}" class="text-dark">
+						{{ notification.message }}
+						</a>
+						<br>
+						<span class="text-muted">{{ notification.created | timesince }} ago</span>
+					</p>
+				</div>
+			</div> <!-- end of row -->
+			{% endif %}
+		{% empty %}
+			<div class="row mb-3 flex-center">
+				<div class="col-10">
+					<p class="border p-4">You have no notifications.</p>
+				</div>
+			</div>
+		{% endfor %}
+	</section>
+</div>
+{% endblock %}
+
+{% block optional-js %}
+<!-- approve feedback ajax call -->
+  <script type="text/javascript">
+    function markAsRead(notification_id){
+      $.ajax({
+        url: '{% url 'appliedunis:read' %}',
+        method: 'get',
+        data: {'notification_id': notification_id,},
+        success: function(data){
+        }
+      })
+    }
+  </script>	
+{% endblock %}

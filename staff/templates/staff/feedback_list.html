@@ -1,0 +1,134 @@
+{% for feedback in feedbacks %}
+    <div class="feedback p-5 z-depth-1 mt-4 mb-5">
+        <!-- row for name and Email -->
+        <div class="row">
+            <div class="col-md-6 col-12 col-sm-6">
+                <p><span class="text-danger font-weight-bold">Full Name: </span>{{ feedback.name }}</p>
+            </div>
+            <div class="col-md-6 col-12 col-sm-6">
+                <p><span class="text-danger font-weight-bold">Email: </span>{{ feedback.email }}</p>
+            </div>
+        </div>
+
+        <!-- row for review -->
+        <div class="row">
+            <div class="col">
+                <p class="text-danger font-weight-bold">Review</p>
+                <p class="text-justify">{{ feedback.review }}</p>
+            </div>
+        </div>
+
+        <!-- row for overall experience, timely response, our service and overall satisfaction -->
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-6">
+                <p class="text-danger font-weight-bold">Overall Experience</p>
+                {% if feedback.oe_very_good %}
+                <small>Very Good</small>
+                {% endif %}
+                {% if feedback.oe_good %}
+                <small>Good</small>
+                {% endif %}
+                {% if feedback.oe_fair %}
+                <small>Fair</small>
+                {% endif %}
+                {% if feedback.oe_poor %}
+                <small>poor</small>
+                {% endif %}
+            </div>
+            <div class="col-md-3 col-sm-6 col-6">
+                <p class="text-danger font-weight-bold">Timely Response</p>
+                {% if feedback.tr_very_good %}
+                <small>Very Good</small>
+                {% endif %}
+                {% if feedback.tr_good %}
+                <small>Good</small>
+                {% endif %}
+                {% if feedback.tr_fair %}
+                <small>Fair</small>
+                {% endif %}
+                {% if feedback.tr_poor %}
+                <small>Poor</small>
+                {% endif %}
+            </div>
+            <div class="col-md-3 col-sm-6 col-6">
+                <p class="text-danger font-weight-bold">Our Service</p>
+                {% if feedback.s_very_good %}
+                <small>Very Good</small>
+                {% endif %}
+                {% if feedback.s_good %}
+                <small>Good</small>
+                {% endif %}
+                {% if feedback.s_fair %}
+                <small>Fair</small>
+                {% endif %}
+                {% if feedback.s_poor %}
+                <small>Poor</small>
+                {% endif %}
+            </div>
+            <div class="col-md-3 col-sm-6 col-6">
+                <p class="text-danger font-weight-bold">Overall Satisfaction</p>
+                {% if feedback.os_very_good %}
+                <small>{{ feedback.os_very_good }}</small>
+                {% endif %}
+                {% if feedback.os_good %}
+                <small>Good</small>
+                {% endif %}
+                {% if feedback.os_fair %}
+                <small>Fair</small>
+                {% endif %}
+                {% if feedback.os_poor %}
+                <small>Poor</small>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- row for message -->
+        <div class="row mt-2">
+            <div class="col">
+                <p class="text-danger font-weight-bold">Advice or Expactation</p>
+                {% if feedback.message %}
+                <p class="text-justify">{{ feedback.message }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- row for approve and delete button -->
+        <p class="text-muted">{{ feedback.send_date|timesince }} ago</p>
+        <a class="btn btn-danger btn-sm" onclick="deleteFeedback('{{ feedback.id }}');"><i class="fas fa-trash mr-2"></i>Delete</a>
+    </div>
+{% empty %}
+    <p class="p-4 mt-4 border text-muted">You have no approval request in feedback list.</p>   
+{% endfor %}
+
+
+{% if feedbacks.has_other_pages %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-circle pg-blue">
+        {% if feedbacks.has_previous %}
+        <li class="page-item"><a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+        <li class="page-item"><a href="?page={{ feedbacks.previous_page_number }}" class="page-link"><i class="fas fa-angle-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-left"></i></span></li>
+        {% endif %}
+
+        {% for i in feedbacks.paginator.page_range %}
+            {% if feedbacks.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif i > feedbacks.number|add:'-3' and i < feedbacks.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if feedbacks.has_next %}
+            <li class="page-item"><a href="?page={{ feedbacks.next_page_number }}" class="page-link"><i class="fas fa-angle-right"></i></a></li>
+            <li class="page-item"><a href="?page={{ feedbacks.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

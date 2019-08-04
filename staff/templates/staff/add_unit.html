@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Add Department{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<h2 class="font-weight-bold mb-5">Add Unit</h2>
+
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.media }}
+
+			<!-- first row for university, unit name and available seats -->
+			<div class="form-row">
+				<div class="col-12 col-sm-2 col-md-2 mr-4">
+					<div class="md-form form-sm">
+						{{ form.unit_name }}
+						<label for="id_unit_name">Unit</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-2 col-md-2 mr-4">
+					<div class="md-form form-sm">
+						{{ form.seat }}
+						<label for="id_seat">Available Seats</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-2 col-md-2 mr-4">
+					<div class="md-form form-sm">
+						{{ form.apply_fees }}
+						<label for="id_apply_fees">Apply Fees</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-2 col-md-2 mr-4">
+					<div class="md-form form-sm">
+						{{ form.apply_dead }}
+						<label for="id_apply_dead">Apply Deadline</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-2 col-md-2">
+					<div class="md-form form-sm">
+						{{ form.exam_date }}
+						<label for="id_exam_date">Examination Date</label>
+					</div>
+				</div>
+			</div>
+
+			<p class="font-weight-bold text-danger mt-4">Unit Requirements</p>
+			<!-- Third row for group, ssc year and hsc year -->
+			<div class="form-row">
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="form-check">
+						<span style="color: #757575; font-size: 0.9rem;">Applicable Group</span>
+						<br>
+						<br>
+						{{ form.science }}
+						<label class="form-check-label mr-5" for="id_science">Science</label>
+						{{ form.commerce }}
+						<label class="form-check-label mr-5" for="id_commerce">Commerce</label>
+						{{ form.humanities }}
+						<label class="form-check-label" for="id_humanities">Humanities</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm mt-4">
+						{{ form.ssc_year }}
+						<label for="id_ssc_year">SSC Year</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm mt-4">
+						{{ form.hsc_year }}
+						<label for="id_hsc_year">HSC Year</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- Fourth row for science gpa and science tgpa  -->
+			<div class="form-row mt-md-4">
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.science_gpa }}
+						<label for="id_science_gpa">GPA for Science</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.commerce_gpa }}
+						<label for="id_commerce_gpa">GPA for Commerce</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.arts_gpa }}
+						<label for="id_arts_gpa">GPA for Humanities</label>
+					</div>
+				</div>
+			</div>
+			<div class="form-row mt-md-4">
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.science_tgpa }}
+						<label for="id_science_tgpa">TGPA for Science</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.commerce_tgpa }}
+						<label for="id_commerce_tgpa">TGPA for Commerce</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.arts_tgpa }}
+						<label for="id_arts_tgpa">TGPA for Humanities</label>
+					</div>
+				</div>
+			</div>
+
+			<!-- Seventh row for science subject wise required gpa -->
+			<p class="font-weight-bold text-danger mt-4">Requirements for Science only</p>
+			<div class="form-row">
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.phy_gpa }}
+						<label for="id_phy_gpa">Physics GPA</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.chem_gpa }}
+						<label for="id_chem_gpa">Chemistry GPA</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-4 col-md-4">
+					<div class="md-form form-sm">
+						{{ form.math_gpa }}
+						<label for="id_math_gpa">Mathematics GPA</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="col-12 col-sm-3 col-md-3">
+					<div class="md-form form-sm">
+						{{ form.bio_gpa }}
+						<label for="id_bio_gpa">Biology GPA</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-3 col-md-3">
+					<div class="md-form form-sm">
+						{{ form.en_gpa }}
+						<label for="id_en_gpa">English GPA</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-3 col-md-3">
+					<div class="md-form form-sm">
+						{{ form.ban_gpa }}
+						<label for="id_ban_gpa">Bangla GPA</label>
+					</div>
+				</div>
+				<div class="col-12 col-sm-3 col-md-3">
+					<div class="md-form form-sm">
+						{{ form.tgpa }}
+						<label for="id_tgpa">Total GPA</label>
+					</div>
+				</div>
+			</div>
+
+			<br>
+
+			<!-- Eightth row for uploading notice -->
+			<p class="font-weight-bold text-danger mt-4">Upload Notice</p>
+			<div class="form-row">
+				<div class="col-md-4">
+					<div class="md-form">
+						<input type="file" name="notice" id="id_notice" hidden="hidden">
+						<button type="button" class="btn btn-default btn-sm" id="notice-button">Upload Notice</button>
+						<span id="notice-text">No file chosen.</span>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="md-form">
+						<input type="file" name="seat_plan" id="id_seat_plan" hidden="hidden">
+						<button type="button" class="btn btn-default btn-sm" id="seatplan-button">Upload Seat Plan</button>
+						<span id="seatplan-text">No file chosen.</span>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="md-form">
+						<input type="file" name="result" id="id_result" hidden="hidden">
+						<button type="button" class="btn btn-default btn-sm" id="result-button">Upload Result</button>
+						<span id="result-text">No file chosen.</span>
+					</div>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-default"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+		</form>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('.mdb-select').materialSelect();
+		});
+	</script>
+	<script type="text/javascript">
+		const noticeFileBtn = document.getElementById("id_notice");
+		const noticeBtn = document.getElementById("notice-button");
+		const noticeTxt = document.getElementById("notice-text");
+
+		noticeBtn.addEventListener("click", function(){
+			noticeFileBtn.click();
+		});
+
+		noticeFileBtn.addEventListener("change", function(){
+			if(noticeFileBtn.value){
+				noticeTxt.innerHTML = noticeFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+			}else{
+				noticeTxt.innerHTML = "No file chosen."
+			}
+		});
+	</script>
+	<script type="text/javascript">
+		const seatplanFileBtn = document.getElementById("id_seat_plan");
+		const seatplanBtn = document.getElementById("seatplan-button");
+		const seatplanTxt = document.getElementById("seatplan-text");
+
+		seatplanBtn.addEventListener("click", function(){
+			seatplanFileBtn.click();
+		});
+
+		seatplanFileBtn.addEventListener("change", function(){
+			if(seatplanFileBtn.value){
+				seatplanTxt.innerHTML = seatplanFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+			}else{
+				seatplanTxt.innerHTML = "No file chosen."
+			}
+		});
+	</script>
+	<script type="text/javascript">
+		const resultFileBtn = document.getElementById("id_result");
+		const resultBtn = document.getElementById("result-button");
+		const resultTxt = document.getElementById("result-text");
+
+		resultBtn.addEventListener("click", function(){
+			resultFileBtn.click();
+		});
+
+		resultFileBtn.addEventListener("change", function(){
+			if(resultFileBtn.value){
+				resultTxt.innerHTML = resultFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+			}else{
+				resultTxt.innerHTML = "No file chosen."
+			}
+		});
+	</script>
+{% endblock %}

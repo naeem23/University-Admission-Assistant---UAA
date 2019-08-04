@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Login{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br><br><br>
+	<section class="container mb-5 mt-5">
+	    <!--Section heading-->
+	    <div class="card">
+	    <h3 class="text-danger h3-responsive font-weight-bold text-center mt-5 mb-3">Reply Messages</h3>
+
+	    <div class="row px-5 pb-5 flex-center">
+	        <!--Grid column-->
+	        <div class="col-md-8 mt-4">
+	            <form id="contact-form" name="contact-form" method="POST">
+	            	{% csrf_token %}
+	                <!--Grid row-->
+	                <div class="row">
+	                    <!--Grid column-->
+	                    <div class="col-md-12">
+	                    	<p class="font-weight-bold mb-3">Query</p>
+	                    	<p class="text-muted">{{ instance.message }}</p>
+	                    </div>
+	                </div>
+	                <!--Grid row-->
+
+	                <!--Grid row-->
+	                <div class="row mt-5">
+	                    <!--Grid column-->
+	                    <div class="col-md-12">
+	                        <div class="md-form">
+								{{ form.reply }}
+								<label for="id_message">Reply</label>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!--Grid row-->
+
+					<button type="submit" class="btn btn-default btn-sm"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+	            </form>
+	        </div>
+	        <!--Grid column-->
+	    </div>
+	    </div>
+	</section>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

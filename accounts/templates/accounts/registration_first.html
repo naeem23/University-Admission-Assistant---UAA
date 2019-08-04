@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistent - Registration{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.register-first .card-body{
+	padding: 55px;
+}
+
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="card register-first">
+			<div class="card-body">
+				<h3 class="card-title font-weight-bold text-center">Basic Information</h3>
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<!-- first row -->
+					<div class="form-row mt-5">
+						<div class="col">
+							<div class="md-form form-sm">
+								{{ form.name }}
+								<label for="id_name">Full Name</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- second row for mother and father name -->
+					<div class="form-row mt-md-2">
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm mr-3">
+								{{ form.father_name }}
+								<label for="id_father_name">Father's Name</label>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm">
+								{{ form.mother_name }}
+								<label for="id_mother_name">Mother's Name</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- third row for mobile and rocket number -->
+					<div class="form-row mt-md-2">
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm mr-3">
+								{{ form.mobile_number }}
+								<label for="id_mobile_number">Mobile Number</label>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm">
+								{{ form.rocket_number }}
+								<label for="id_rocket_number">Rocket Number</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- fourth row for photo and signature upload -->
+					<div class="form-row mt-md-2">
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm">
+								<span style="color: #757575; font-size: 0.9rem">Your Photo</span>
+								<br>
+								<input type="file" name="image" id="id_image" hidden="hidden">
+								<button type="button" class="btn btn-default btn-sm" id="custom-button">Upload Iamge</button>
+								<span id="custom-text">No file chosen.</span>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<div class="md-form form-sm">
+								<span style="color: #757575; font-size: 0.9rem">Your Signature</span>
+								<br>
+								<input type="file" name="signature" id="id_signature" hidden="hidden">
+								<button type="button" class="btn btn-default btn-sm" id="custom-btn">Upload Signature</button>
+								<span id="custom-txt">No file chosen.</span>
+							</div>
+						</div>
+					</div>
+
+					<!-- fifth row for quota and medium -->
+					<div class="form-row mt-md-2">
+						<div class="col-md-6 col-sm-12">
+							<span style="color: #757575; font-size: 0.9rem">Quota</span>   
+							<div class="md-form form-sm mr-3">
+								{{ form.quota }}
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<span style="color: #757575; font-size: 0.9rem">Medium</span>   
+							<div class="md-form form-sm">
+								{{ form.medium }}
+							</div>
+						</div>
+					</div>
+
+					{% if form.non_field_errors %}
+						{% for error in form.non_field_errors %}
+							<p class="card-text text-danger font-weight-bold">{{ error }}</p>
+						{% endfor %}
+					{% endif %}
+					<button type="submit" class="btn btn-default btn-md">Next</button>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<br><br><br><br>
+{% endblock %}
+
+{% block optional-js %}
+<!-- following js code for file upload button -->
+<script type="text/javascript">
+	const realFileBtn = document.getElementById("id_image");
+	const customBtn = document.getElementById("custom-button");
+	const customText = document.getElementById("custom-text");
+
+	customBtn.addEventListener("click", function(){
+		realFileBtn.click();
+	});
+
+	realFileBtn.addEventListener("change", function(){
+		if(realFileBtn.value){
+			customText.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+		}else{
+			customText.innerHTML = "No file chosen."
+		}
+	});		
+</script>
+<!-- following js code for file upload button -->
+<script type="text/javascript">
+	const realFileButton = document.getElementById("id_signature");
+	const customButton = document.getElementById("custom-btn");
+	const customTxt = document.getElementById("custom-txt");
+
+	customButton.addEventListener("click", function(){
+		realFileButton.click();
+	});
+
+	realFileButton.addEventListener("change", function(){
+		if(realFileButton.value){
+			customTxt.innerHTML = realFileButton.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+		}else{
+			customTxt.innerHTML = "No file chosen."
+		}
+	});		
+</script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Login{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br><br><br>
+	<section class="container mb-5 mt-5">
+	    <!--Section heading-->
+	    <div class="card">
+	    <h3 class="text-danger h3-responsive font-weight-bold text-center mt-5 mb-3">Contact us</h3>
+	    <!--Section description-->
+	    <p class="text-center w-responsive mx-auto mb-5 text-muted">Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within
+	        a matter of hours to help you.</p>
+
+	    <div class="row px-5 pb-5">
+	        <!--Grid column-->
+	        <div class="col-md-9 mb-md-0 mb-5">
+	            <form id="contact-form" name="contact-form" method="POST">
+	            	{% csrf_token %}
+	                <!--Grid row-->
+	                <div class="row">
+	                    <!--Grid column-->
+	                    <div class="col-md-6">
+	                        <div class="md-form mb-0">
+								{{ form.name }}
+								<label for="id_name">Your Name</label>
+	                        </div>
+	                    </div>
+	                    <!--Grid column-->
+
+	                    <!--Grid column-->
+	                    <div class="col-md-6">
+	                        <div class="md-form mb-0">
+								{{ form.email }}
+								<label for="id_email">Your Email</label>
+	                        </div>
+	                    </div>
+	                    <!--Grid column-->
+
+	                </div>
+	                <!--Grid row-->
+
+	               <!--Grid row-->
+	                <div class="row">
+	                    <div class="col-md-12">
+	                        <div class="md-form mb-0">
+	                            {{ form.subject }}
+	                            <label for="id_subject">Subject</label>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!--Grid row-->
+
+	                <!--Grid row-->
+	                <div class="row">
+	                    <!--Grid column-->
+	                    <div class="col-md-12">
+	                        <div class="md-form">
+								{{ form.message }}
+								<label for="id_message">Your Message</label>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!--Grid row-->
+					<button type="submit" class="btn btn-default btn-sm"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+	            </form>
+	        </div>
+	        <!--Grid column-->
+
+	        <!--Grid column-->
+	        <div class="col-md-3 text-center">
+	            <ul class="list-unstyled mb-0">
+	                <li><i class="fas fa-map-marker-alt fa-2x teal-text"></i>
+	                    <p>Housing Estate, Maijdee, Noakhali</p>
+	                </li>
+
+	                <li><i class="fas fa-phone mt-4 fa-2x teal-text"></i>
+	                    <p>+880 1622 190 899</p>
+	                </li>
+
+	                <li><i class="fas fa-envelope mt-4 fa-2x teal-text"></i>
+	                    <p>support@uaa.com</p>
+	                </li>
+	            </ul>
+	        </div>
+	        <!--Grid column-->
+	    </div>
+	    </div>
+	</section>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

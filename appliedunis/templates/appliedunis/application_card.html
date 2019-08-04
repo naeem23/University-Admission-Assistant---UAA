@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Applied Universities{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.cover{ 
+  background-image: url('{% static "home/image.jpg" %}'); 
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  background-position: center center;
+  height: 350px;
+  position: relative;
+}
+.profile img{
+  position: absolute;
+  top: 40%;
+    border: 4px solid #fff;
+    box-shadow: 0px 2px 10px 1px;
+}
+.username{
+  margin-left: 15%;
+}
+{% endblock %}
+
+{% block main-content %}
+  <!-- Intro section start -->
+  <div class="cover"></div>
+  <div class="container">
+    <div class="profile">
+        {% if user.userprofile.image %}
+          <img src="{{ user.userprofile.image.url }}" class="profile-image rounded-circle m-auto" alt="Users Image" width="150px" height="150px">
+        {% else %}
+          <img src="{% static 'img/avatar.png' %}" class="profile-image rounded-circle m-auto" alt="Users Image" width="150px" height="150px">
+        {% endif%}  <br>
+        <h6 class="username text-danger font-weight-bold">{{ user.username }}</h6>
+    </div>
+  </div>
+  <!-- Intro section end -->
+  
+  <div class="container mt-5">
+    <ul class="nav teal p-3 flex-center rounded">
+      <li class="nav-item">
+        <a class="nav-link active text-white" href="{% url 'accounts:profile' username=request.user %}"><i class="fas fa-user mr-2"></i>About Me</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:eligible_list' username=request.user %}"><i class="fas fa-list-ul mr-2"></i>Eligible Universities</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:interested_unis' username=request.user %}"><i class="fas fa-thumbtack mr-2"></i>Interested Universities</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white teal darken-2 rounded" href="{% url 'accounts:application' username=request.user %}"><i class="fas fa-check-circle mr-2"></i>Applied Universities</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="{% url 'accounts:notifications' username=request.user %}"><i class="fas fa-bell mr-2"></i>Notifications <span class="badge badge-danger ml-1">{{ count }}</span></a>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="container">
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="p-3" style="border: 1px dashed #6c757d ;">
+            <p class="text-muted">You have applied to {{ apply_count }} units. </p>
+          </div>
+        </div>
+      </div>
+      <div class="row application">
+          {% include 'appliedunis/application_card_list.html' %}
+      </div>
+  </div>
+{% endblock %}
+
+{% block optional-js %}
+  <!-- add to apply university list ajax call -->
+
+  <script type="text/javascript">
+    function deleteApply(unit_id){
+      $.ajax({
+        url: '{% url 'appliedunis:delete_api' %}',
+        method: 'get',
+        data: {'unit_id': unit_id,},
+        success: function(data){
+          status = data.delete;
+          if(status == 'success'){
+            $('.container .application').html(data.html_application_list);
+          }else{
+
+          }
+
+        }
+      })
+    }
+  </script>
+{% endblock %}
+

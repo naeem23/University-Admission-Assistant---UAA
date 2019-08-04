@@ -1,0 +1,54 @@
+{% for obj in object %}
+<div class="card mt-4 mb-5">
+  <div class="card-body">
+    <div class="card-title mb-4">
+    	<div class="float-left"><strong class="text-danger">Application ID: </strong><small class="font-weight-bold">{{ obj.application_id }}</small></div>
+    	<div class="float-right"><strong class="text-danger">Application Status: </strong><small class="font-weight-bold text-capitalize">{{ obj.status }}</small></div>
+    </div>
+    <br>
+    <div class="card-subtitle mb-2 text-muted"><small>Applied For</small></div>
+    <div class="card-text">
+    	<h5 class="font-weight-bold">{{ obj.unit.uni_name }}</h5>
+    	<p class="font-weight-bold">Unit {{ obj.unit.unit_name }}</p>
+        <p><a href="{% url 'accounts:profile' username=obj.user %}">View Applicant Details</a></p>
+        {% if obj.taken_by %}
+        <p><span class="font-weight-bold">Taken By: </span> {{ obj.taken_by }}</p>
+        {% endif %}
+    </div>
+    <hr>
+    <a href="{% url 'staff:edit_request' id=obj.id %}" class="btn btn-success btn-sm card-link"><i class="fas fa-pencil-alt mr-2"></i>Edit</a>
+    <button class="btn btn-danger btn-sm card-link" onclick="deleteRequest('{{ obj.id }}');"><i class="fas fa-trash mr-2"></i>Delete</button>
+  </div>
+</div>
+{% endfor %}
+
+
+{% if object.has_other_pages %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-circle pg-blue">
+        {% if object.has_previous %}
+        <li class="page-item"><a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+        <li class="page-item"><a href="?page={{ object.previous_page_number }}" class="page-link"><i class="fas fa-angle-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-double-left"></i></span></li>
+        {% endif %}
+
+        {% for i in object.paginator.page_range %}
+            {% if object.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif i > object.number|add:'-3' and i < object.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if object.has_next %}
+            <li class="page-item"><a href="?page={{ object.next_page_number }}" class="page-link"><i class="fas fa-angle-right"></i></a></li>
+            <li class="page-item"><a href="?page={{ object.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

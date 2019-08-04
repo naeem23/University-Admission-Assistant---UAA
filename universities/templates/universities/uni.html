@@ -1,0 +1,394 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Universities{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.nav-pills .nav-link.active{
+	background-color: #2BBBAD;
+	color: #fff!important; 
+	border-radius: 0;
+}
+#dept:hover{
+	color: #3f51b5!important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<!-- University Name Row -->
+		<div class="row border pt-3 pb-2 px-2">
+			<div class="col-md-10">
+				<h2 class="font-weight-bold text-danger h2-responsive">{{ uni.name }}</h2>
+				<p class="font-weight-bold text-muted">Established in {{ uni.established }}</p>
+			</div>
+			<div class="col-md-2">
+				<p class="font-weight-bold text-danger text-right mt-2"><i class="fas fa-poll mr-2"></i>Rank: {{ uni.rank }}</p>
+			</div>
+		</div>
+		<!-- Ends University Name Row -->
+
+
+		<!-- Row Starts for University Details -->
+		<div class="row mt-4">
+			<div class="col-md-12">
+				<p>{{ uni.about|safe }}</p>
+			</div>
+		</div>
+		<!-- Row Ends for University Details -->
+
+
+		<ul class="nav nav-pills mb-3 border-bottom py-3 mt-4" id="pills-tab" role="tablist">
+		  <li class="nav-item">
+		    <a class="nav-link active text-dark font-weight-bold" id="pills-fac-n-dept-tab" data-toggle="pill" href="#pills-fac" role="tab"
+		      aria-controls="pills-home" aria-selected="true">Faculty and Departments</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-dark font-weight-bold" id="pills-units-tab" data-toggle="pill" href="#pills-units" role="tab"
+		      aria-controls="pills-units" aria-selected="false">Units</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-dark font-weight-bold" id="pills-rating-tab" data-toggle="pill" href="#pills-rating" role="tab"
+		      aria-controls="pills-rating" aria-selected="false">Ratings</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-dark font-weight-bold" id="pills-notice-tab" data-toggle="pill" href="#pills-notice" role="tab"
+		      aria-controls="pills-notice" aria-selected="false">Admission Notice</a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link text-dark font-weight-bold" id="pills-dates-tab" data-toggle="pill" href="#pills-dates" role="tab"
+		      aria-controls="pills-dates" aria-selected="false">Important Dates</a>
+		  </li>
+		</ul>
+
+		<div class="tab-content" id="pills-tabContent">
+			<!-- Faculty and Departments -->
+			<div class="tab-pane fade show active" id="pills-fac" role="tabpanel" aria-labelledby="pills-fac-n-dept-tab">
+				<!-- Row Starts for University Faculties and Departments List -->
+				<div class="row mt-5">
+					{% for f in faculties %}
+						<div class="col-md-4">
+							<p class="elegant-color text-white p-3 font-weight-bold text-center">{{ f.f_name }}</p>
+							{% for dept in departments %}
+								{% if f.f_name == dept.faculty.f_name %}
+									<a href="{{ dept.get_absolute_url }}" class="text-muted" id="dept">{{ dept.dept_name }}</a>
+									<br><br>
+								{% endif %}
+							{% endfor %}
+						</div>
+					{% endfor %}
+				</div>
+				<!-- Row Ends for University Faculties and Departments List -->
+			</div>
+			<!-- Faculty and Departments tab ends here -->
+
+
+			<!-- Units tabs starts here -->
+			<div class="tab-pane fade" id="pills-units" role="tabpanel" aria-labelledby="pills-units-tab">
+				<!-- Row Starts for University Units -->
+				<div class="row">
+					{% for unit in units %}
+					<div class="col-md-6 mt-4">
+						<div class="card p-4">
+							<div class="card-header font-weight-bold elegant-color text-center text-white">
+								Unit {{ unit.unit_name }}
+							</div>
+							<div class="card-body">
+								<!-- First row -->
+								<div class="row">
+									<div class="col-12 col-md-5"><p class="card-text"><span class="font-weight-bold">Available Seats: </span>{{ unit.seat }}</p></div>
+									<div class="col-12 col-md-7"><p class="card-text"><span class="font-weight-bold">Application Fees: </span>{{ unit.apply_fees }} Tk</p></div>
+								</div>
+								<!-- /First row -->
+
+								<!-- Second Row -->
+								<div class="row mt-3">
+									<div class="col-12"><p class="card-text font-weight-bold">Eligibility Criteria</p></div>
+								</div>
+								<!-- /Second Row -->
+
+								<!-- Third Row for Science -->
+								<div class="row">
+									<div class="col-12">
+										{% if unit.science %}
+										<p class="card-text text-center font-weight-bold mt-2">For Science</p>
+										<ul class="list-group card-text">
+											<li class="list-group-item border-0">
+												<p>Passing Year</p>
+												<p><span class="float-left">SSC: {{ unit.ssc_year }}</span><span class="float-right">HSC: {{ unit.hsc_year }}</span></p>
+											</li>
+											<li class="list-group-item border-0">
+												<p>Required GPA</p>
+												<ul class="list-group">
+													<li class="list-group-item border-0">
+														{% if science_gpa != 0.00 %}
+														<span class="float-left">SSC and HSC each {{ unit.science_gpa }}</span>
+														{% endif %}
+														{% if science_tgpa != 0.00 %}
+														<span class="float-right">SSC and HSC total {{ unit.science_tgpa }}</span></li>
+														{% endif %}
+													<li class="list-group-item border-0">
+														<span class="mr-3">Physics: {{ unit.phy_gpa }}</span>
+														<span class="mr-3">Chemistry: {{ unit.chem_gpa }}</span>
+														<span>Mathematics: {{ unit.math_gpa }}</span>
+													</li>
+													<li class="list-group-item border-0">
+														<span class="mr-3">Biology: {{ unit.bio_gpa }}</span>
+														<span class="mr-3">English: {{ unit.en_gpa }}</span>
+														<span>Bangla: {{ unit.ban_gpa }}</span>
+													</li>
+													<li class="list-group-item border-0">Total GPA: {{ unit.tgpa }}</li>
+												</ul>
+											</li>
+										</ul>
+										{% endif %}
+									</div>
+								</div>
+								<!-- /Thired Row -->
+
+								<!-- Forth Row for Commerce -->
+								<div class="row">
+									<div class="col-12">
+										{% if unit.commerce %}
+										<p class="card-text text-center font-weight-bold mt-2">For Commerce</p>
+										<ul class="list-group card-text">
+											<li class="list-group-item border-0">
+												<p>Passing Year</p>
+												<p>
+													<span class="float-left">SSC: {{ unit.ssc_year }}</span>
+													<span class="float-right">HSC: {{ unit.hsc_year }}</span>
+												</p>
+											</li>
+											<li class="list-group-item border-0">
+												<p>Required GPA</p>
+												<ul class="list-group">
+													<li class="list-group-item border-0">
+														<span class="float-left">SSC and HSC each {{ unit.commerce_gpa }}</span>
+														<span class="float-right">SSC and HSC total {{ unit.commerce_tgpa }}</span>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										{% endif %}
+									</div>
+								</div>
+								<!-- /Fourth Row -->
+
+								<!-- Fifth Row for humanities -->
+								<div class="row">
+									<div class="col-12">
+										{% if unit.humanities %}
+										<p class="card-text text-center font-weight-bold mt-2">For Humanities</p>
+										<ul class="list-group card-text">
+											<li class="list-group-item border-0">
+												<p>Passing Year</p>
+												<p>
+													<span class="float-left">SSC: {{ unit.ssc_year }}</span>
+													<span class="float-right">HSC: {{ unit.hsc_year }}</span>
+												</p>
+											</li>
+											<li class="list-group-item border-0">
+												<p>Required GPA</p>
+												<ul class="list-group">
+													<li class="list-group-item border-0">
+														<span class="float-left">SSC and HSC each {{ unit.arts_gpa }}</span>
+														<span class="float-right">SSC and HSC total {{ unit.arts_tgpa }}</span>
+													</li>
+												</ul>
+											</li>
+										</ul>
+										{% endif %}
+									</div>
+								</div>
+								<!-- /Fifth row -->
+
+								<!-- Sixth Row for Dates -->
+								<div class="row mt-3">
+									<div class="col-12">
+										<p class="card-text font-weight-bold">Date to be remembered</p>
+										<ul class="list-group">
+											<li class="list-group-item border-0">
+												<p class="card-text">Application Deadline: <span class="text-danger">{{ unit.apply_dead | date:"d F, Y" }}</span><span class="ml-3 text-danger">{{ unit.apply_dead|time:"g:i A" }}</span></p>
+												<p class="card-text">Examination Date: {{ unit.exam_date | date:"d F, Y" }}<span class="ml-3">{{ unit.exam_date|time:"g:i A" }}</span></p>
+											</li>
+										</ul>
+									</div>
+								</div>
+								<!-- /Sixth row -->
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<!-- Row Starts for University Units -->
+			</div>
+			<!-- Units tabs ends here -->
+
+
+			<!-- Ratings tab starts here -->
+			<div class="tab-pane fade" id="pills-rating" role="tabpanel" aria-labelledby="pills-rating-tab">
+				<!-- First Row starts for Quality Education, Research Innovation and Tuition Fees -->
+				<div class="row mt-5">
+					<div class="col-12">
+						<div class="card p-5">
+							<div class="row">
+								<div class="col-12 col-sm-5 col-md-4 col-lg-3 text-center my-auto mr-5">
+									<h2 class="font-weight-bold">{{ ratings.average }}%</h2>
+									<i class="fas fa-star mr-2 text-warning"></i>
+									<i class="fas fa-star mr-2 text-warning"></i>
+									<i class="fas fa-star mr-2 text-warning"></i>
+									<i class="fas fa-star mr-2 text-warning"></i>
+									<i class="fas fa-star"></i>
+								</div>
+								<div class="col-12 col-sm-7 col-md-8  col-lg-8">
+									<p class="card-text">Quality Education</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.quality_edu }}%; height: 20px" aria-valuenow="{{ ratings.quality_edu }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.quality_edu }}%</div>
+									</div>
+									<p class="card-text">Research Innovation</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.research_innovation }}%; height: 20px" aria-valuenow="{{ ratings.research_innovation }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.research_innovation }}%</div>
+									</div>
+									<p class="card-text">Tuition Fees</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.tuition_fee }}%; height: 20px" aria-valuenow="{{ ratings.tuition_fee }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.tuition_fee }}%</div>
+									</div>
+									<p class="card-text">Extra Curriculum</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.extra_curricular }}%; height: 20px" aria-valuenow="{{ ratings.extra_curricular }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.extra_curricular }}%</div>
+									</div>
+									<p class="card-text">Living Facilities</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.living }}%; height: 20px" aria-valuenow="{{ ratings.living }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.living }}%</div>
+									</div>
+									<p class="card-text">Transport Facilities</p>
+									<div class="progress md-progress" style="height: 20px">
+								    	<div class="progress-bar" role="progressbar" style="width: {{ ratings.transport }}%; height: 20px" aria-valuenow="{{ ratings.transport }}" aria-valuemin="0" aria-valuemax="5">{{ ratings.transport }}%</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Ratings Ends -->
+			
+
+			<!-- Admission Notice tab -->
+			<div class="tab-pane fade" id="pills-notice" role="tabpanel" aria-labelledby="pills-notice-tab">
+				<div class="row mt-5">
+					<div class="col-12">
+						{% if dates.notice %}
+							<a href="{{ dates.notice.url }}" class="font-weight-bold text-info">Admission Notice</a>
+						{% else %}
+							<p class="text-muted">No notice is available right now.</p>
+						{% endif %}
+						{% for unit in units %}
+							{% if unit.notice %}
+								<a href="{{ unit.notice.url }}" class="font-weight-bold text-info">Admission notice for unit {{ unit.unit_name }}</a>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+			<!-- Admission Notice tab ends -->
+
+
+			<!-- Important Dates tab -->
+			<div class="tab-pane fade" id="pills-dates" role="tabpanel" aria-labelledby="pills-dates-tab">
+				<!-- Row Starts for Important Dates -->
+				<div class="row mt-5">
+					<div class="col-md-8 col-sm-8 col-12 mx-auto">
+						<h4 class="font-weight-bold elegant-color text-white text-center p-3">Important Dates</h4>
+						<table class="table table-striped">
+							<tbody>
+								<!-- First table row starts -->
+								<tr>
+									<td class="font-weight-bold">Application Starts</td>
+									<td>
+										<span>{{ dates.apply_start|date:"d F, Y"  }}</span>
+									</td>
+								</tr>
+								<!-- First table row ends -->
+
+								<!-- Second table row starts -->
+								<tr>
+									<td class="font-weight-bold">Application Ends</td>
+									<td>
+										<span>{{ dates.apply_end|date:"d F, Y"  }}</span>
+										<span>{{ dates.apply_end|time:"g:i A" }}</span>
+									</td>
+								</tr>
+								<!-- Second table row ends -->
+								
+								<!-- Third table row starts -->
+								<tr>
+									<td class="font-weight-bold">Valid Candidates List</td>
+									<td>{{ dates.valid_list|date:"d F, Y"  }}</td>
+								</tr>
+								<!-- Third table row ends -->
+								
+								<!-- Fourth table row starts -->
+								<tr>
+									<td class="font-weight-bold">Admit Card Download</td>
+									<td>
+										<span>{{ dates.admit_dwon_start|date:"d F, Y"  }} to </span>
+										<span>{{ dates.admit_dwon_end|date:"d F, Y"  }}</span>
+										<span>{{ dates.admit_dwon_end|time:"g:i A" }}</span>
+									</td>
+								</tr>
+								<!-- Fourth table row ends -->
+								
+								<!-- Fifth table row starts -->
+								<tr>
+									<td class="font-weight-bold">Examination Dates</td>
+									<td>
+										{% for unit in units %}
+											<span class="mr-2">Unit {{ unit.unit_name }} - </span>
+											<span class="mr-2">{{ unit.exam_date|date:"d F, Y"  }}</span>
+											<span>{{ unit.exam_date|time:"g:i A" }}</span>
+											<br>
+										{% endfor %}
+									</td>
+								</tr>
+								<!-- Fifth table row ends -->
+								
+								<!-- Sixth table row starts -->
+								<tr>
+									<td class="font-weight-bold">Result Publish Date</td>
+									<td>{{ dates.result_pub|date:"d F, Y"  }}</td>
+								</tr>
+								<!-- Sixth table row ends -->
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<!-- Row Ends for Important Dates -->
+			</div>
+		</div>
+
+
+		<!-- university contact area  -->
+		<div class="row mt-5">
+			<div class="col-12 col-md-6">
+				<h4 class="font-weight-bold mb-4">University Location</h4>
+				<p>{{ uni.address|linebreaks }}</p>
+			</div>
+			<div class="col-12 col-md-6 text-right">
+				<h4 class="font-weight-bold mb-4">Contact</h4>
+				<p class=""><i class="fas fa-phone mr-2"></i>{{ uni.phone }}</p>
+				<p class=""><i class="fas fa-envelope mr-2"></i>{{ uni.email }}</p>
+				<p class=""><i class="fas fa-globe mr-2"></i><a href="{{ uni.website }}" class="indigo-text" target="_">{{ uni.website }}</a></p>
+			</div>
+		</div>
+		<!-- university contact area  -->
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Add Universities{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<h3 class="mb-5 font-weight-bold">Add Basic Info</h3>
+		<form method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ form.media }}
+			
+			<div class="form-row">
+				<div class="col">    
+					<div class="md-form form-sm mt-4 mr-3">
+				        {{ form.name }}
+				        <label for="id_name">University Name</label>
+				    </div>
+				</div>
+				<div class="col">
+					<span style="color: #757575; font-size: 0.9rem">University Type</span>      
+					<div class="md-form form-sm">
+				        {{ form.category }}
+				    </div>
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="col">
+					<div class="md-form">
+						<span style="color: #757575; font-size: 0.9rem;">About University</span>
+						<br>
+						{{ form.about }}
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-row">
+				<div class="col mr-3">
+					<span style="color: #757575; font-size: 0.9rem">University Logo</span> 
+					<div class="md-form form-sm">
+						<input type="file" name="logo" id="id_logo" hidden="hidden">
+						<button type="button" class="btn btn-default btn-sm" id="custom-button">Upload Logo</button>
+						<span id="custom-text">No file chosen.</span>
+					</div>
+				</div>
+
+				<div class="col mr-3">    
+					<div class="md-form form-sm">
+				        {{ form.established }}
+				        <label for="id_established">Established</label>
+				    </div>
+				</div>
+				<div class="col"> 
+					<div class="md-form form-sm">
+			        	{{ form.rank }}
+			        	<label for="id_rank">Rank</label> 
+				    </div>
+				</div>
+			</div>
+			
+			<div class="form-row">
+				<div class="col-12 mr-3">    
+					<div class="md-form form-sm">
+				        {{ form.address }}
+				        <label for="id_address">Location</label>
+				    </div>
+				</div>
+			</div>
+			
+			<div class="form-row mt-3">
+				<div class="col mr-3">    
+					<div class="md-form form-sm">
+				        {{ form.website }}
+				        <label for="id_website">Website</label>
+				    </div>
+				</div>
+				<div class="col mr-3"> 
+					<div class="md-form form-sm">
+			        	{{ form.email }}
+			        	<label for="id_email">Email</label> 
+				    </div>
+				</div>
+				<div class="col"> 
+					<div class="md-form form-sm">
+			       		{{ form.phone }}
+			        	<label for="id_phone">Phone</label> 
+				    </div>
+				</div>
+			</div>
+			<br>
+
+			<button type="submit" class="btn btn-default"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+		</form>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+<!-- following js code for file upload button -->
+<script type="text/javascript">
+	const realFileBtn = document.getElementById("id_logo");
+	const customBtn = document.getElementById("custom-button");
+	const customText = document.getElementById("custom-text");
+
+	customBtn.addEventListener("click", function(){
+		realFileBtn.click();
+	});
+
+	realFileBtn.addEventListener("change", function(){
+		if(realFileBtn.value){
+			customText.innerHTML = realFileBtn.value.match(/[\/\\]([\w\d\s\.\-\(\)]+)$/)[1];
+		}else{
+			customText.innerHTML = "No file chosen."
+		}
+	});
+</script>
+{% endblock %}

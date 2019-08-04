@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}University Admission Assistant -  University Category{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br><br><br><br>
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+			{% if category == 'science' %}
+				<h3 class="text-uppercase text-danger font-weight-bold mt-3 mb-5">{{ category }} and technogoly universities</h3>
+			{% else %}
+				<h3 class="text-uppercase text-danger font-weight-bold mt-3 mb-5">{{ category }} universities</h3>
+			{% endif %}
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				<ul class="list-group">
+					{% for uni in university %}
+					<li class="list-group-item mb-3 hoverable">
+						{% if uni.logo %}
+						<img src="{{ uni.logo.url }}" class="img-thumbnail mr-4 z-depth-1" width="50px" height="50px">
+						{% else %}
+						<img src="{% static 'home/img/nstu_logo.png' %}" class="img-thumbnail mr-4 z-depth-1" width="50px" height="50px">
+						{% endif %}
+						<a href="{{ uni.get_absolute_url }}" class="font-weight-bold">{{ uni.name }}</a>
+					</li>
+					{% empty %}
+					<li class="list-group-item">
+						<p>No university is added to this category.</p>
+					</li>
+					{% endfor %}
+				</ul>
+<!-- 				<table class="table table-striped">
+					<tbody>
+						{% for uni in university %}
+						<tr>
+							<td>
+								<a href="{{ uni.get_absolute_url }}" ><h5 class="font-weight-bold">{{ uni.name }}</h5></a>
+							</td>
+							<td class="ml-auto">
+								<p>View Details</p>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table> -->
+			</div>
+		</div>
+		<br>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+{% endblock %}

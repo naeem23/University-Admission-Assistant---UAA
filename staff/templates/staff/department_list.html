@@ -1,0 +1,86 @@
+<table class="table mb-5 table-borderless">
+	{% for uni in university %}
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">
+					<a href="{{ uni.get_absolute_url }}" class="font-weight-bold text-white"><h5>{{ uni.name }}</h5></a>
+				</th>
+				<th scope="col"></th>
+				<th scope="col">
+					<a href="{% url 'staff:add_faculty' uni_id=uni.id %}" class="btn btn-default btn-sm"><i class="fas fa-plus mr-2"></i>Add Faculty</a>
+				</th>
+			</tr> 
+	</thead>
+	<tbody>
+		{% for fac in faculties %}
+			{% if fac.uni_name.name == uni.name %}
+			<tr class="border-bottom border-top">
+				<th scope="row" class="text-danger font-weight-bold">{{ fac.f_name }}</th>
+				<td>
+					<a href="{% url 'staff:add_department' id=fac.id %}" style="cursor: pointer;" ><i class="fas fa-plus mr-2"></i>Add Department</a>
+				</td>
+				<td>
+					<a href="{% url 'staff:edit_faculty' id=fac.id %}" style="cursor: pointer;" class="mr-2"><i class="fas fa-pencil-alt mr-2"></i>Edit</a> || 
+					<a class="ml-2" onclick="deleteFaculty('{{ fac.id }}');"><i class="fas fa-trash mr-2"></i>Delete</a>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+				{% for dept in departments %}
+					{% if dept.uni_name.name == uni.name and dept.faculty.f_name == fac.f_name %}
+					<tr>
+						<th scope="row">
+							<a href="{{ dept.get_absolute_url }}" class="text-dark">{{ dept.dept_name }}</a>
+						</th>
+						<td></td>
+						<td>
+							<a href="{% url 'staff:edit_department' id=dept.id %}" style="cursor: pointer;" class="mr-2"><i class="fas fa-pencil-alt mr-2"></i>Edit</a> || 
+							<a class="ml-2" onclick="deleteDept('{{ dept.id }}');"><i class="fas fa-trash mr-2"></i>Delete</a>
+						</td>
+					</tr>
+					{% endif %}
+				{% endfor %}
+				</th>
+				<td></td>
+				<td></td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+	</tbody>
+	{% endfor %}
+</table>
+
+
+{% if university.has_other_pages %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-circle pg-blue">
+        {% if university.has_previous %}
+        <li class="page-item"><a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+
+        <li class="page-item"><a href="?page={{ university.previous_page_number }}" class="page-link"><i class="fas fa-angle-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-left"></i></span></li>
+        {% endif %}
+
+        {% for i in university.paginator.page_range %}
+            {% if university.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif i > university.number|add:'-3' and i < university.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if university.has_next %}
+            <li class="page-item"><a href="?page={{ university.next_page_number }}" class="page-link"><i class="fas fa-angle-right"></i></a></li>
+
+            <li class="page-item"><a href="?page={{ university.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+

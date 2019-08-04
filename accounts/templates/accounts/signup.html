@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistent - Signup{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.card{
+	width: 70%;
+	margin: 0 auto;
+}
+.danger-color{
+	height: 100%;
+	border-radius: .3rem 0 0 .3rem;
+}
+.signin{
+	border: 2px solid #fff!important;
+	color: #fff!important;
+}
+{% endblock %}
+
+{% block main-content %}	
+	<br><br><br>
+	<div class="container">
+		<div class="card mt-5">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-12">
+					<div class="danger-color p-5">
+						<div class="text-center text-white" style="margin-top: 50%">
+							<h3 class="font-weight-bold mb-3">Hello, Friend!</h3>
+							<span>Already have an account?</span>
+							<br>
+							<a href="{% url 'accounts:login' %}" class="btn btn-outline-default waves-effect mt-4 signin">Sing in</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-12">
+					<div class="login-form p-5">
+						<h4 class="font-weight-bold mb-3 text-center">Sign Up</h4>
+						<form method="POST">
+							{% csrf_token %}
+						  	<div class="form-row mt-3">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+								    	{{ form.username }}
+								    	<label for="id_username">Username</label>
+						  			</div>
+						  		</div>
+						 	</div>
+						  	<div class="form-row">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+								    	{{ form.email }}
+								    	<label for="id_email">Email</label>
+				   						<small class="text-muted">We'll never share your email with anyone else.</small>
+						  			</div>
+						  		</div>
+						 	</div>
+						  	<div class="form-row">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+								    	{{ form.password1 }}
+								    	<label for="id_password1">Password</label>
+						  			</div>
+						  		</div>
+						 	</div>
+						 	<div class="form-row">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+						 				{{ form.password2 }}
+						 				<label for="id_password2">Repeat Password</label>
+						 			</div>
+						 		</div>
+						 	</div>
+							{% if form.non_field_errors %}
+								{% for error in form.non_field_errors %}
+									<small class="text-danger">{{ error }}</small>
+								{% endfor %}
+							{% endif %}
+						 	<br>
+						 	<button type="submit" class="btn btn-danger">sign up</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

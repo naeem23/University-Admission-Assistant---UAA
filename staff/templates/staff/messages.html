@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Staff Home{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<div class="container-fluid mt-5">
+		<div class="row">
+			<div class="col-md-3 mr-5 col-sm-12 elegant-color-dark p-4">
+				<nav class="nav flex-column">
+				  <a class="nav-link text-white p-3" href="{% url 'staff:staff_home' %}">Application Request</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:universities' %}">Universities</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:departments' %}">Faculty and Departments</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:units' %}">Units</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:feedbacks' %}">Feedbacks</a>
+				  <a class="nav-link text-white border p-3" href="{% url 'staff:queries' %}">Messages</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:send_mail' %}"><button class="btn btn-warning btn-sm">Send Mail<i class="fas fa-paper-plane ml-2"></i></button></a>
+				</nav>
+			</div>
+			<div class="col-md-8 col-sm-12 mt-5">
+				<h3 class="font-weight-bold">Messages</h3>				
+				<div class="load-messages">
+					{% include 'staff/message_list.html' %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}  
+<!-- approve feedback ajax call -->
+  <script type="text/javascript">
+    function replied(message_id){
+      $.ajax({
+        url: '{% url 'staff:replied_message' %}',
+        method: 'get',
+        data: {'message_id': message_id,},
+        success: function(data){
+          status = data.replied;
+          if(status == 'success'){
+            $('.container-fluid .load-messages').html(data.html_message_list);
+          }else{
+
+          }
+        }
+      })
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,25 @@
+          {% for unit in object.units.all %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ unit.uni_name }}</td>
+              <td>Unit {{ unit.unit_name }}</td>
+              <td class="text-danger font-weight-bold">{{ unit.apply_dead|date }}<br>{{ unit.apply_dead|time:"g:i A" }}</td>
+              <td>
+                <button type="button" class="btn btn-danger btn-sm" onclick="remove('{{ unit.id }}');"><i class="fas fa-trash mr-2"></i>Remove</button>
+              </td>
+              <td>{{ unit.apply_fees }} Tk</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <th colspan="3"></th>
+              <td>Interested List is empty</td>
+            </tr>
+          {% endfor %}
+
+          {% if object.units.exists %}
+            <tr>
+              <th colspan="4"></th>
+              <td>Total Fees:</td>
+              <td> {{ object.total }} Tk</td>
+            </tr>
+          {% endif %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Departments{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<div class="mt-5">
+		<div class="row">
+			<div class="col-md-3 mr-5 col-sm-12 elegant-color-dark p-4">
+				<nav class="nav flex-column">
+				  <a class="nav-link text-white p-3" href="{% url 'staff:staff_home' %}">Application Request</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:universities' %}">Universities</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:departments' %}">Faculty and Departments</a>
+				  <a class="nav-link text-white border p-3" href="{% url 'staff:units' %}">Units</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:feedbacks' %}">Feedbacks</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:queries' %}">Messages</a>
+				  <a class="nav-link text-white p-3" href="{% url 'staff:send_mail' %}"><button class="btn btn-warning btn-sm">Send Mail<i class="fas fa-paper-plane ml-2"></i></button></a>
+				</nav>
+			</div>
+			<div class="col-md-8 col-sm-12 mt-5">
+				<div class="row">
+					<div class="col-12 col-sm-6 col-md-6">
+						<h3 class="font-weight-bold mb-4">Units</h3>
+					</div>
+					<div class="col-12 col-sm-6 col-md-6">
+						<form method="GET">
+							{% csrf_token %}
+							<div class="md-form input-group form-sm border">
+								<input class="form-control border border-0" type="text" placeholder="Search Here..." name="q" value="{{ request.GET.q }}">
+								<button type="submit" class="border border-0 transparent"><i class="fa fa-search text-dark mr-2"></i></button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="load-units">
+							{% include 'staff/unit_list.html' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}  
+<!-- remove university ajax call -->
+  <script type="text/javascript">
+    function deleteUnit(unit_id){
+      $.ajax({
+        url: '{% url 'staff:delete_unit' %}',
+        method: 'get',
+        data: {'unit_id': unit_id,},
+        success: function(data){
+          status = data.remove;
+          if(status == 'success'){
+            $('.load-units').html(data.html_unit_list);
+          }else{
+
+          }
+        }
+      })
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistent - Registration{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<div class="card register-second">
+			<div class="card-body p-5">
+				<h3 class="card-title font-weight-bold text-center mb-5">Educational Information (SSC)</h3>
+				<form method="POST">
+					{% csrf_token %}
+					<!-- first row with ssc roll and reg -->
+					<div class="form-row mt-4">
+						<div class="col-md-5 col-12 mx-md-5">
+							<div class="md-form form-sm">
+								{{ form.ssc_roll }}
+								<label for="id_ssc_roll">Roll No.</label>
+							</div>
+						</div>
+						<div class="col-md-5 col-12">
+							<div class="md-form form-sm">
+								{{ form.ssc_reg }}
+								<label for="id_ssc_reg">Reg. No.</label>
+							</div>
+						</div>
+					</div>
+
+					<!-- second row with ssc passing year and board -->
+					<div class="form-row mt-3">
+						<div class="col-md-5 col-12 mx-md-5">
+							<span style="color: #757575; font-size: 0.9rem">Group</span> 
+							<div class="md-form form-sm">
+								{{ form.ssc_group }}
+							</div>
+						</div>
+						<div class="col-md-5 col-12">
+							<span style="color: #757575; font-size: 0.9rem">Board</span> 
+							<div class="md-form form-sm">
+								{{ form.ssc_board }}
+							</div>
+						</div>
+					</div>
+
+					<!-- third row with ssc group and gpa -->
+					<div class="form-row mt-3">
+						<div class="col-md-5 col-12 mx-md-5">
+							<div class="md-form form-sm">
+								{{ form.ssc_pass_y }}
+								<label for="id_ssc_pass_y">Year</label>
+							</div>
+						</div>
+						<div class="col-md-5 col-12">
+							<div class="md-form form-sm">
+								{{ form.ssc_gpa }}
+								<label for="id_ssc_gpa">Total GPA</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row mt-3">
+						<div class="col-md-5 col-12 mx-md-5">
+							{% if form.non_field_errors %}
+								{% for error in form.non_field_errors %}
+									<p class="card-text text-danger font-weight-bold">{{ error }}</p>
+								{% endfor %}
+							{% endif %}
+						</div>
+					</div>
+					<button type="submit" class="btn btn-default btn-md mt-4 ml-5">Next</button>
+				</form>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}
+{% endblock %}

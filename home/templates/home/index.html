@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}University Admission Assistant{% endblock %}
+
+{% block optional-css %}
+  .search{
+    border: none!important;
+    padding: 1rem;
+    height: 1rem!important;
+    margin-top: 0px;
+    background-color: #fff !important;
+  }
+  .search-btn{
+    background-color: #fff !important;
+  }
+  .title{
+    font-size: 3rem!important;
+  }
+  .universities{
+    padding: 80px 0 60px;
+    background-image: url('{% static "home/image.jpg" %}');
+    background-size: 100% 100%;
+    background-attachment: fixed;
+    width: 100%;
+  }
+  .universities .card{
+    background: transparent;
+    box-shadow: 0 0 0 0!important;
+    height: 163px;
+  }
+  .universities .card:hover{
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12)!important;
+  }
+
+  .carousel-indicators{
+    bottom: -50px;
+  }
+  .carousel-indicators li{
+    background-color: #2e2e2e;
+  }
+{% endblock %}
+{% block main-content %}
+    <!-- Intro Section-->
+    <section class="view hm-gradient" id="intro">
+      <div class="full-bg-img d-flex align-items-center">
+        <div class="container">
+          <div class="row no-gutters">
+            <div class="col-md-12 col-lg-12 text-center text-md-center margins">
+              <div class="white-text">
+                <div class="wow fadeInLeft" data-wow-delay="0.3s">
+                  <h1 class="h1-responsive font-bold mt-sm-5 title">University Admission Assistant</h1>
+                  <p>Let's make it simple and easy</p>
+                </div><br>
+              </div>
+            </div>
+          </div>
+          <div class="row no-gutters">
+            <div class="col-md-12 col-lg-12 col-sm-12 margins">
+                <div class="wow fadeInLeft" data-wow-delay="0.3s">
+                    <form  action="{% url 'home:search' %}" method="GET">
+                      <div class="md-form input-group m-auto" style="width: 50%;">
+                        <input type="text" class="form-control search" name="q" placeholder="Noakhali Science and Technology University" value="{{ request.GET.q }}">
+                        <div class="input-group-append">
+                          <button class="btn btn-md m-0 px-3 search-btn" type="submit" id="MaterialButton-addon2"><i class="fa fa-search text-dark"></i></button>
+                        </div>
+                      </div>
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- main container starts here -->
+    <div class="container">
+        <!-- Row for application deadline and upcoming exam -->
+    		<div class="row">
+          <!-- Left column for application deadline -->
+    			<div class="col-12 col-md-6 mt-5">
+    				<h3 class="text-white font-weight-bold text-center mb-5 p-3 danger-color">Application Deadlines</h3>
+            <!-- carousel starts -->
+            <div id="applyCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for unit, diff in deadlines %} 
+                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                  <!-- card -->
+                    <div class="text-center">
+                        <h4 class="font-weight-bold">{{ unit.uni_name }}</h4>
+                        <div class="card-body">
+                          <p class="card-title font-weight-bold">Unit {{ unit.unit_name }}</p>
+                          <p class="card-text font-weight-bold"><span>Deadline: {{ unit.apply_dead|date }}</span><span class="ml-2">{{ unit.apply_dead|time:"g:i A" }}</span></p>
+                          <p class="card-text text-danger font-weight-bold">{{ diff }} Left</p>
+                        </div>
+                    </div>
+                  <!-- card ends -->
+                </div>
+                {% endfor %}
+
+                <!-- controls -->
+                <a href="#applyCarousel" class="carousel-control-prev" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a href="#applyCarousel" class="carousel-control-next" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+                <!-- control ends -->
+              </div>
+            </div>
+            <!-- carousel ends -->
+    			</div>
+          <!-- End Left column for application deadline -->
+
+          <!-- Right column for upcoming deadline -->
+          <div class="col-12 col-md-6 mt-5">
+            <h3 class="text-white font-weight-bold text-center mb-5 danger-color p-3">Upcoming Exam</h3>
+            <!-- carousel starts -->
+            <div id="examCarousel" class="carousel slide" data-ride="carousel">
+              <div class="carousel-inner">
+                {% for unit, date in examdead %} 
+                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                  <!-- card -->
+                    <div class="text-center">
+                        <h4 class="font-weight-bold">{{ unit.uni_name }}</h4>
+                        <div class="card-body">
+                          <p class="card-title font-weight-bold">Unit {{ unit.unit_name }}</p>
+                          <p class="card-text font-weight-bold"><span>Exam Date: {{ unit.exam_date|date }}</span><span class="ml-2">{{ unit.exam_date|time:"g:i A" }}</span></p>
+                          <p class="card-text text-danger font-weight-bold">{{ date }} Left</p>
+                        </div>
+                    </div>
+                  <!-- card ends -->
+                </div>
+                {% endfor %}
+
+                <!-- controls -->
+                <a href="#examCarousel" class="carousel-control-prev" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+                </a>
+                <a href="#examCarousel" class="carousel-control-next" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+                </a>
+                <!-- control ends -->
+              </div>
+            </div>
+            <!-- carousel ends -->
+          </div>
+          <!-- Ends Right column for upcoming exam -->
+    		</div>
+        <!-- Ends Row for application deadline and upcoming exam -->
+
+        <br><br>
+	  </div>
+
+
+    <!-- Universities section starts here -->
+    <section class="universities mt-5">
+        <div class="container">
+            <h3 class="text-white font-weight-bold text-center mb-5">Admission Information</h3>
+
+            <!-- First Row Starts -->
+            <div class="row">
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-4">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='agricultural' %}">Agricultural University</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Ends University Category -->
+
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-4">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='engineering' %}">Engineering University</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Ends University Category -->
+
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-4">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='general' %}">General University</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Ends University Category -->
+            </div>
+            <!-- First Row Ends -->
+
+            <!-- Second Row Starts -->
+            <div class="row mt-5">
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-6">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='medical' %}">Medical College</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Ends University Category -->
+
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-6">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='science' %}">Science & Technology University</a>
+                  </div>
+                </div>
+              </div>
+              <!-- Ends University Category -->
+
+              <!-- University Category -->
+              <div class="col-md-4 col-12 col-sm-6">
+                <div class="card">
+                  <div class="card-body text-center">
+                      <i class="fas fa-university fa-2x text-white"></i>
+                      <a class="font-weight-bold text-capitalize mt-3 d-block text-white" href="{% url 'home:university_category' category='textile' %}">Textile University</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Second Row Ends -->
+        </div>
+    </section>
+    <!-- Universities section ends here -->
+
+
+    <!-- Feedback section start -->
+    <section class="students-feedback container mt-5">
+      <h3 class="text-dark font-weight-bold text-center mb-5">What students says</h3>
+      <div class="row flex-center">
+          <div class="col-12 col-md-8 text-center">
+            <!-- carousel starts -->
+            <div id="feedbackCarousel" class="carousel slide" data-ride="carousel">
+                <!-- indicatiors -->
+                <ol class="carousel-indicators">
+                  {% for feedback in feedbacks %} 
+                  <li data-target="#feedbackCarousel" data-slide-to="{{ forloop.counter }}" class="{% if forloop.first %}active{% endif %}"></li>  
+                  {% endfor %}              
+                </ol>
+                <!-- indicatiors -->
+
+                <div class="carousel-inner">
+                  {% for feedback in feedbacks %} 
+                  <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <p>{{ feedback.review }}</p>
+                    <p class="mt-3 text-muted font-weight-bold"><i class="fas fa-user-tie mr-2"></i>{{ feedback.name }}</p>
+                  </div>
+                  {% endfor %}
+                </div>
+            </div>
+            <!-- carousel ends -->
+          </div>
+      </div>
+      <br>
+      <div class="row mt-5">
+        <div class="col-12 text-center">
+          <a href="{% url 'feedback:send_feedback' %}" class="btn btn-default rounded-pill">Review Us</a>
+        </div>
+      </div>
+    </section>
+    <!-- Feedback section start -->
+{% endblock %}
+
+{% block optional-js %}
+<script type="text/javascript">
+  $('.carousel').carousel()
+</script>
+{% endblock %}

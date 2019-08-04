@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+    <!--Fontawesome CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'home/bootstrap.min.css' %}">
+    <!-- mdb css -->
+    <link href="{% static 'home/mdb.min.css' %}" rel="stylesheet">
+    <!-- own css -->
+    <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
+
+    <style type="text/css">
+      #intro {
+        background: url('{% static "home/image.jpg" %}') no-repeat center center;
+        background-size: cover;
+        height: 650px;
+      }
+      .navbar-nav li{
+        letter-spacing: 1px;
+        margin-right: 15px;
+      }
+
+    {% block optional-css %}
+    {% endblock %}
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- Start Navbar and Intro -->
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar" id="navbar">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'home:homepage' %}"><strong>UAA</strong></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+
+          <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item"><a class="nav-link active" href="{% url 'home:homepage' %}">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'feedback:send_feedback' %}">Feedback</a></li>
+              {% if request.user.is_staff or request.user.is_superuser %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'staff:staff_home' %}"><i class="fas fa-user-alt mr-2"></i>Admin</a></li>
+              {% endif %}
+              {% if user.is_authenticated and not request.user.is_staff %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'accounts:profile' username=request.user %}"><i class="fa fa-user-circle mr-1"></i>{{ request.user }}</a></li>
+              <li class="nav-item"><a href="{% url 'accounts:messages' username=request.user %}" class="nav-link"><i class="fas fa-comments mr-2"></i>Messages</a></li>
+              {% else %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'contact:contact_us' %}">Contact</a></li>
+              {% endif %}
+            </ul>
+            {% if request.user.is_authenticated %}
+              <form action="{% url 'accounts:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-danger btn-sm rounded-pill" type="submit">Logout <i class="fas fa-sign-out-alt ml-2"></i></button>
+              </form>
+            {% else %}
+              <a class="btn btn-default rounded-pill btn-sm" href="{% url 'accounts:login' %}">Login <i class="fas fa-sign-in-alt ml-2"></i></a>
+            {% endif %}
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- End Navbar and Intro -->
+
+    
+    {% block main-content %}
+
+    {% endblock %}
+
+
+    <!-- footer section starts -->
+    <footer class="elegant-color pt-5 pb-4 mt-5">
+      <div class="container">
+        <!-- div row starts -->
+        <div class="row">
+          <!-- First column starts -->
+          <div class="col-12 col-sm-4 col-md-4 text-white mb-4">
+            <h4 class="font-weight-bold mb-3">About Us</h4>
+            <ul style="list-style: none; margin: 0; padding: 0">
+              <li>
+                <a href="" class="text-white mb-2">Blog</a>
+              </li>
+              <li>
+                <a href="" class="text-white mb-2">Careers</a>
+              </li>
+              <li>
+                <a href="" class="text-white mb-2">Partners</a>
+              </li>
+              <li>
+                <a href="" class="text-white mb-2">Terms & conditions</a>
+              </li>
+            </ul>
+          </div>
+          <!-- First column starts -->
+
+          <!-- Second column starts -->
+          <div class="col-12 col-sm-4 col-md-4 mb-4">
+            <h4 class="font-weight-bold text-white mb-3">Support</h4>
+            <ul style="list-style: none; margin: 0; padding: 0">
+              <li>
+                <a href="" class="text-white mb-2">FAQ</a>
+              </li>
+              <li>
+                <a href="{% url 'contact:contact_us' %}" class="text-white mb-2">Have Questions?</a>
+              </li>
+              <li>
+                <a href="{% url 'feedback:send_feedback' %}" class="text-white mb-2">Feedback</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Second column ends -->
+
+          <!-- Third column starts -->
+          <div class="col-12 col-sm-4 col-md-4 mb-4">
+            <h4 class="font-weight-bold text-white mb-3">Find us on</h4>
+            <ul style="list-style: none; margin: 0; padding: 0">
+              <li>
+                <a href="" class="text-white mb-2"><i class="fab fa-facebook mr-2"></i>facebook.com/uaa</a>
+              </li>
+              <li>
+                <a href="" class="text-white mb-2"><i class="fab fa-twitter mr-2"></i>twitter.com/uaa</a>
+              </li>
+              <li>
+                <a href="" class="text-white mb-2"><i class="fas fa-envelope mr-2"></i>support@uaa.com</a>
+              </li>
+            </ul>
+          </div>
+          <!-- Third column ends -->
+        </div>
+        <!-- div row starts -->
+
+        <!-- copy right row starts -->
+        <div class="row pt-4">
+          <div class="col-12 text-center text-white">
+            <p>&copy; copyright 2019 All right reserved. Designed and Developed by <a href="">Nae'3m</a></p>
+          </div>
+        </div>
+        <!-- copy right row ends -->
+      </div>
+    </footer>
+    <!-- footer section ends -->
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- Bootstrap tooltips -->
+    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script> -->
+    <script src="{% static 'home/jquery.min.js' %}"></script>
+    <script src="{% static 'home/popper.min.js' %}"></script>
+    <script src="{% static 'home/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'home/mdb.min.js' %}"></script>
+    <!-- Optional JavaScript -->
+    {% block optional-js %}
+    {% endblock %}
+  </body>
+</html>

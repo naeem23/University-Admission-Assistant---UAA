@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Universities{% endblock %}
+
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br>
+	<br>
+	<br>
+	<br>
+	<div class="container">
+		<h3 class="mb-4 font-weight-bold mt-3">Add Rating for {{ instance.uni_name }}</h3>
+		<br>
+		<form method="POST">
+			{% csrf_token %}
+			<div class="form-row">
+				<div class="col mr-2">
+					<div class="md-form form-sm">
+						{{ form.quality_edu }}
+						<label for="id_quality_edu">Quality Education</label>
+					</div>
+				</div>
+				<div class="col mr-2">
+					<div class="md-form form-sm">
+						{{ form.research_innovation }}
+						<label for="id_research_innovation">Research Innovation</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.extra_curricular }}
+						<label for="id_extra_curricular">Extra Curriculum</label>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="form-row">
+				<div class="col mr-2">
+					<div class="md-form form-sm">
+						{{ form.tuition_fee }}
+						<label for="id_tuition_fee">Tuition Fee</label>
+					</div>
+				</div>
+				<div class="col mr-2">
+					<div class="md-form form-sm">
+						{{ form.living }}
+						<label for="id_living">Living</label>
+					</div>
+				</div>
+				<div class="col">
+					<div class="md-form form-sm">
+						{{ form.transport }}
+						<label for="id_transport">Transportaion</label>
+					</div>
+				</div>
+			</div>
+
+			<br>
+			<button type="submit" class="btn btn-default"><i class="fas fa-paper-plane mr-2"></i>Submit</button>
+		</form>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}University Admission Assistant - Login{% endblock %}
+
+{% load static %}
+{% block optional-css %}
+.navbar:not(.top-nav-collapse) {
+  background: #1D1F25 !important;
+}
+.card{
+	width: 70%;
+	margin: 0 auto;
+}
+.danger-color{
+	height: 100%;
+	border-radius: 0 .3rem .3rem 0;
+}
+.signup{
+	border: 2px solid #fff!important;
+	color: #fff!important;
+}
+.facebook i, .google i{
+	background: #fff;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0px 1px 5px 0px;
+}
+{% endblock %}
+
+{% block main-content %}
+	<br><br><br>
+	<div class="container">
+		<div class="card mt-5">
+			<div class="row">
+				<div class="col-md-6 col-sm-6 col-12">
+					<div class="login-form d-block m-auto text-center p-5">
+						<h4 class="font-weight-bold mb-3">Sign in</h4>
+						<div class="social-media mb-3">
+							<a class="facebook mr-2"><i class="fab fa-facebook-f"></i></a>
+							<a class="google"><i class="fab fa-google-plus-g"></i></a>
+						</div>
+						<span>or use your account</span>
+						<form method="POST">
+							{% csrf_token %}
+
+						  	<div class="form-row mt-4">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+								    	{{ form.username }}
+								    	<label for="id_username">Username</label>
+						  			</div>
+						  		</div>
+						 	</div>
+						 	<div class="form-row">
+						  		<div class="col">
+						  			<div class="md-form form-sm">
+						 				{{ form.password }}
+						 				<label for="id_password">Password</label>
+						 			</div>
+						 		</div>
+						 	</div>
+							{% if form.non_field_errors %}
+								{% for error in form.non_field_errors %}
+									<small class="text-danger">{{ error }}</small>
+								{% endfor %}
+							{% endif %}
+						 	<br>
+						 	<button type="submit" class="btn btn-danger">sign in</button> 
+						</form>
+						<br>
+						<a href="{% url 'password_reset' %}">Forget Password?</a>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6 col-12">
+					<div class="danger-color p-5">
+						<div class="text-center text-white" style="margin-top: 50%">
+							<h3 class="font-weight-bold mb-3">Hello, Friend!</h3>
+							<span>Enter your personal details and start journey with us</span>
+							<br>
+							<a href="{% url 'accounts:signup' %}" class="btn btn-outline-default waves-effect mt-4 signup">Sing up</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block optional-js %}{% endblock %}

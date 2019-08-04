@@ -1,0 +1,86 @@
+
+        {% for obj in object %}
+        <div class="col-md-6 col-12">
+          <div class="card mt-4">
+            <div class="card-body">
+              <div class="card-title mb-4">
+                <div class="float-left"><strong class="text-danger">Application ID: </strong><small class="font-weight-bold">{{ obj.application_id }}</small></div>
+                <div class="float-right"><strong class="text-danger">Application Status: </strong><small class="font-weight-bold text-capitalize">{{ obj.status }}</small></div>
+              </div>
+              <br>
+              <div class="card-subtitle mb-2 text-muted"><small>Applied For</small></div>
+              <div class="card-text">
+                <h5 class="font-weight-bold">{{ obj.unit.uni_name }}</h5>
+                <p class="font-weight-bold">Unit {{ obj.unit.unit_name }}</p>
+                {% if obj.information %}
+                <p>{{ obj.information|linebreaks }}</p>
+                {% endif %}
+
+                <div class="row">
+                  <div class="col-md-6">
+                    {% if obj.unit.seat_plan %}
+                      <a href="{{ obj.unit.seat_plan.url }}" class="text-info font-weight-bold">Download Seat Plan</a>
+                    {% endif %}
+                  </div>
+                  <div class="col-md-6">
+                    {% if obj.unit.result %}
+                      <a href="{{ obj.unit.result.url }}" class="text-info font-weight-bold">Download Result</a>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12">
+                    {% if obj.admit_card %}
+                      <a href="{{ obj.admit_card.url }}" class="btn btn-default btn-sm">Download Admit Card</a>
+                    {% else %}
+                      <p class="card-text mt-3">Admit card is not available</p>
+                    {% endif %}
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="card-footer">
+              <!-- checking the status and show active or disable button -->
+              {% if obj.status|slugify == "requested" or obj.status|slugify == "accepted" %}
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteApply('{{ obj.unit.id }}');"><i class="fas fa-trash mr-2"></i>Cancel</button>
+              {% else %}
+                <button type="button" class="btn btn-danger btn-sm" disabled><i class="fas fa-trash mr-2"></i>Cancel</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        
+
+{% if object.has_other_pages %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination pagination-circle pg-blue">
+        {% if object.has_previous %}
+        <li class="page-item"><a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+        <li class="page-item"><a href="?page={{ object.previous_page_number }}" class="page-link"><i class="fas fa-angle-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-double-left"></i></span></li>
+        {% endif %}
+
+        {% for i in object.paginator.page_range %}
+            {% if object.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif i > object.number|add:'-3' and i < object.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if object.has_next %}
+            <li class="page-item"><a href="?page={{ object.next_page_number }}" class="page-link"><i class="fas fa-angle-right"></i></a></li>
+            <li class="page-item"><a href="?page={{ object.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

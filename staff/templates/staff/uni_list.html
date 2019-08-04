@@ -1,0 +1,56 @@
+
+				<table class="table table-borderless">
+				  	<tbody>  
+						{% for u in object %}
+						<tr class="border border-bottom-0">
+						  	<td>
+								<h5><a href="{{ u.get_absolute_url }}" class="font-weight-bold text-dark">{{ u.name }}</a></h5>
+							</td>
+						    <td>
+						  	  <a href="{% url 'staff:edit_university' id=u.id %}" style="cursor: pointer;" class="mr-2"><i class="fas fa-pencil-alt mr-2"></i>Edit</a> ||
+						  	  <button class="btn btn-danger btn-sm" onclick="deleteUniversity('{{ u.id }}');"><i class="fas fa-trash mr-2"></i>Delete</button>
+						    </td>
+						</tr>
+						<tr class="border border-top-0">
+							<td>
+								<a href="{% url 'staff:apply_schedule' schedule_id=u.id %}" style="cursor: pointer;" class="mr-5"><i class="fas fa-plus mr-2"></i>Important Dates</a>
+								<a href="{% url 'staff:uni_rating' obj_id=u.id %}" style="cursor: pointer;" class="mr-2"><i class="fas fa-plus mr-2"></i>Ratings</a>
+							</td>
+							<td></td>
+						</tr>
+						{% endfor %}
+				  	</tbody>
+				</table>
+
+
+{% if object.has_other_pages %}
+<nav aria-label="Page navigation example mt-5">
+    <ul class="pagination pagination-circle pg-blue">
+        {% if object.has_previous %}
+        <li class="page-item"><a href="?page=1" class="page-link"><i class="fas fa-angle-double-left"></i></a></li>
+
+        <li class="page-item"><a href="?page={{ object.previous_page_number }}" class="page-link"><i class="fas fa-angle-left"></i></a></li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-left"></i></span></li>
+        {% endif %}
+
+        {% for i in object.paginator.page_range %}
+            {% if object.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}<span class="sr-only">(current)</span></span>
+                </li>
+            {% elif i > object.number|add:'-3' and i < object.number|add:'3' %}
+                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        {% if object.has_next %}
+            <li class="page-item"><a href="?page={{ object.next_page_number }}" class="page-link"><i class="fas fa-angle-right"></i></a></li>
+
+            <li class="page-item"><a href="?page={{ object.paginator.num_pages }}" class="page-link"><i class="fas fa-angle-double-right"></i></a></li>
+        {% else %}
+            <li class="page-item disabled"><span class="page-link"><i class="fas fa-angle-right"></i></span></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
